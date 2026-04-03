@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+
+<div class="form-page">
+  <div class="container--narrow">
+
+    <div class="form-header">
+      <p class="form-header__eyebrow">Compose</p>
+      <h1 class="form-header__title">Write a new post</h1>
+    </div>
+
+    <form class="post-form" action="/posts" method="POST">
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Give your post a title…"
+          required
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="author">Author <span class="label-opt">(optional)</span></label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            class="form-control"
+            placeholder="Anonymous"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="category">Category <span class="label-opt">(optional)</span></label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            class="form-control"
+            placeholder="e.g. Thoughts, Travel, Tech"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="excerpt">Excerpt <span class="label-opt">(optional)</span></label>
+        <input
+          type="text"
+          id="excerpt"
+          name="excerpt"
+          class="form-control"
+          placeholder="A short teaser for the post card (auto-generated if blank)"
+          autocomplete="off"
+        />
+        <span class="form-hint">Appears on the homepage card. Leave blank to use the first 120 characters of content.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea
+          id="content"
+          name="content"
+          class="form-control"
+          placeholder="Start writing…&#10;&#10;Use blank lines to separate paragraphs."
+          required
+        ></textarea>
+        <span class="form-hint">Separate paragraphs with a blank line.</span>
+      </div>
+
+      <div class="form-footer">
+        <a href="/" class="btn btn--ghost">Cancel</a>
+        <button type="submit" class="btn btn--primary btn--lg">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6.5h9M7.5 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Publish Post
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

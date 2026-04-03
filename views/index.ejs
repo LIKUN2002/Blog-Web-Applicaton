@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+
+<!-- Masthead -->
+<section class="masthead">
+  <div class="container--narrow">
+    <p class="masthead__label">Your writing space</p>
+    <h1 class="masthead__title">Stories,<br/>thoughts &amp;<br/>ideas.</h1>
+    <p class="masthead__subtitle">A personal blog that lives in the moment — write freely, edit boldly, and let the words flow.</p>
+    <div class="masthead__meta">
+      <span><%= posts.length %> post<%= posts.length !== 1 ? 's' : '' %></span>
+      <% if (posts.length > 0) { %>
+        <span class="masthead__meta-dot"></span>
+        <span>Latest: <%= formatDateShort(posts[0].createdAt) %></span>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Posts -->
+<section class="posts-section">
+  <div class="container">
+
+    <div class="posts-header">
+      <h2>All Posts</h2>
+      <span class="posts-count"><%= posts.length %> total</span>
+    </div>
+
+    <% if (posts.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-state__icon">✦</div>
+        <h2 class="empty-state__title">The page is blank.</h2>
+        <p class="empty-state__body">Every great writer started with an empty page. Yours is waiting.</p>
+        <a href="/posts/new" class="btn btn--primary btn--lg">Write your first post</a>
+      </div>
+    <% } else { %>
+      <div class="posts-grid">
+        <% posts.forEach(post => { %>
+          <article class="post-card">
+            <span class="post-card__category"><%= post.category %></span>
+            <h2 class="post-card__title"><%= post.title %></h2>
+            <p class="post-card__excerpt"><%= post.excerpt %></p>
+            <div class="post-card__footer">
+              <div class="post-card__author">
+                <span class="post-card__author-name"><%= post.author %></span>
+                <span class="post-card__date"><%= formatDateShort(post.createdAt) %></span>
+              </div>
+              <a href="/posts/<%= post.id %>" class="post-card__link">
+                Read
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+
+  </div>
+</section>
+
+<%- include('partials/footer') %>

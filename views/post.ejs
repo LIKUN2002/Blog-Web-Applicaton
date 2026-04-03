@@ -1,0 +1,95 @@
+<%- include('partials/header') %>
+
+<!-- Post Hero -->
+<section class="post-hero">
+  <div class="container--narrow">
+    <a href="/" class="post-hero__back">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Posts
+    </a>
+
+    <p class="post-hero__category"><%= post.category %></p>
+    <h1 class="post-hero__title"><%= post.title %></h1>
+
+    <div class="post-hero__meta">
+      <span>By <strong><%= post.author %></strong></span>
+      <span class="post-hero__meta-sep">&middot;</span>
+      <span><%= formatDate(post.createdAt) %></span>
+      <% if (post.updatedAt > post.createdAt) { %>
+        <span class="post-hero__meta-sep">&middot;</span>
+        <span class="updated-badge">
+          <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 1v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="4.5" cy="4.5" r="3.5" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          Updated <%= formatDateShort(post.updatedAt) %>
+        </span>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Post Content -->
+<div class="post-body">
+  <div class="container--narrow">
+    <div class="post-content">
+      <% post.content.split('\n\n').forEach(para => { %>
+        <% if (para.trim()) { %>
+          <p><%= para.trim() %></p>
+        <% } %>
+      <% }) %>
+    </div>
+
+    <div class="post-actions">
+      <a href="/" class="btn btn--ghost">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 6H2M5 2L1 6l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </a>
+      <span class="post-actions__spacer"></span>
+      <a href="/posts/<%= post.id %>/edit" class="btn btn--outline">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 1.5l2 2L4 10H2v-2l6.5-6.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+        Edit Post
+      </a>
+      <button class="btn btn--danger" onclick="document.getElementById('deleteModal').classList.add('is-open')">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 3h8M5 1h2M4 5v4M8 5v4M3 3l.5 7h5L9 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal__icon">⚠️</div>
+    <h2 class="modal__title" id="modalTitle">Delete this post?</h2>
+    <p class="modal__body">
+      "<strong><%= post.title %></strong>" will be permanently removed. This cannot be undone.
+    </p>
+    <div class="modal__actions">
+      <button class="btn btn--outline" onclick="document.getElementById('deleteModal').classList.remove('is-open')">Cancel</button>
+      <form action="/posts/<%= post.id %>/delete" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn--danger">Yes, delete it</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('is-open');
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') document.getElementById('deleteModal').classList.remove('is-open');
+  });
+</script>
+
+<%- include('partials/footer') %>
